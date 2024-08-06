@@ -42,8 +42,6 @@ include_directories(
 )
 include_directories("~/drift/include")
 
-message("baseline include dir: ${PROJECT_SOURCE_DIR}/../../../baselines/include")
-
 set(LIBS
   ${EIGEN3_LIBS}
   ${catkin_LIBRARIES}

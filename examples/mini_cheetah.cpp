@@ -39,11 +39,11 @@ int main(int argc, char** argv) {
   /// TUTORIAL: Load your yaml file
   // Find project path
   std::string file{__FILE__};
-  std::string project_dir{file.substr(0, file.rfind("ROS/drift/examples/"))};
+  std::string project_dir{file.substr(0, file.rfind("drift/examples/"))};
   std::cout << "Project directory: " << project_dir << std::endl;
 
   std::string config_file
-      = project_dir + "/ROS/drift/config/mini_cheetah/ros_comm.yaml";
+      = project_dir + "/drift/config/mini_cheetah/ros_comm.yaml";
   YAML::Node config = YAML::LoadFile(config_file);
   std::string imu_topic = config["subscribers"]["imu_topic"].as<std::string>();
   std::string joint_encoder_topic
@@ -73,16 +73,16 @@ int main(int argc, char** argv) {
 
   /// TUTORIAL: Create a state estimator
   InekfEstimator inekf_estimator(
-      error_type, project_dir + "/config/mini_cheetah/inekf_estimator.yaml");
+      error_type, project_dir + "/drift/config/mini_cheetah/inekf_estimator.yaml");
 
   /// TUTORIAL: Add a propagation and correction(s) to the state estimator
   // Mini Cheetah's setting:
   inekf_estimator.add_imu_propagation(
       qimu, qimu_mutex,
-      project_dir + "/config/mini_cheetah/imu_propagation.yaml");
+      project_dir + "/drift/config/mini_cheetah/imu_propagation.yaml");
   inekf_estimator.add_legged_kinematics_correction(
       qkin, qkin_mutex,
-      project_dir + "/config/mini_cheetah/legged_kinematics_correction.yaml");
+      project_dir + "/drift/config/mini_cheetah/legged_kinematics_correction.yaml");
 
   /// TUTORIAL: Get the robot state queue and mutex from the state estimator
   RobotStateQueuePtr robot_state_queue_ptr
