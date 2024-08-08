@@ -83,7 +83,7 @@ IMUQueuePair ROSSubscriber::AddFetchIMUSubscriber(
   return {imu_queue_ptr, mutex_list_.back()};
 }
 
-LeggedKinQueuePair ROSSubscriber::AddMiniCheetahKinematicsSubscriber(
+LeggedKinQueuePair ROSSubscriber::AddbipedKinematicsSubscriber(
     const std::string contact_topic_name,
     const std::string encoder_topic_name) {
   std::cout << "Subscribing to contact topic: " << contact_topic_name
@@ -110,7 +110,7 @@ LeggedKinQueuePair ROSSubscriber::AddMiniCheetahKinematicsSubscriber(
           *joint_state_subscriber_list_.back()));
 
   leg_kin_sync_list_.back()->registerCallback(
-      boost::bind(&ROSSubscriber::MiniCheetahKinCallBack, this, _1, _2,
+      boost::bind(&ROSSubscriber::bipedKinCallBack, this, _1, _2,
                   mutex_list_.back(), kin_queue_ptr));
 
   // Keep the ownership of the data queue in this class
@@ -542,43 +542,36 @@ void ROSSubscriber::DifferentialEncoder2VelocityCallback_Fetch(
   ang_vel_mutex.get()->unlock();
 }
 
-void ROSSubscriber::MiniCheetahKinCallBack(
+void ROSSubscriber::bipedKinCallBack(
     const boost::shared_ptr<const custom_sensor_msgs::ContactArray>&
         contact_msg,
     const boost::shared_ptr<const sensor_msgs::JointState>& encoder_msg,
     const std::shared_ptr<std::mutex>& mutex, LeggedKinQueuePtr& kin_queue) {
   // Create a legged kinematics measurement object
   // Set headers and time stamps
-  std::shared_ptr<kinematics::MiniCheetahKinematics> kin_measurement(
-      new kinematics::MiniCheetahKinematics);
+  std::shared_ptr<kinematics::bipedKinematics> kin_measurement(
+      new kinematics::bipedKinematics);
   kin_measurement->set_header(
       contact_msg->header.seq,
       contact_msg->header.stamp.sec
           + contact_msg->header.stamp.nsec / 1000000000.0,
       contact_msg->header.frame_id);
 
-  Eigen::Matrix<bool, 4, 1> ct_msg;
+  Eigen::Matrix<bool, 2, 1> ct_msg;
   ct_msg << contact_msg->contacts[0].indicator,
-      contact_msg->contacts[1].indicator, contact_msg->contacts[2].indicator,
-      contact_msg->contacts[3].indicator;
+      contact_msg->contacts[1].indicator;
   kin_measurement->set_contact(ct_msg);
 
-  Eigen::Matrix<double, 12, 1> js_msg;
+  Eigen::Matrix<double, 6, 1> js_msg;
   js_msg << encoder_msg->position[0], encoder_msg->position[1],
       encoder_msg->position[2], encoder_msg->position[3],
-      encoder_msg->position[4], encoder_msg->position[5],
-      encoder_msg->position[6], encoder_msg->position[7],
-      encoder_msg->position[8], encoder_msg->position[9],
-      encoder_msg->position[10], encoder_msg->position[11];
+      encoder_msg->position[4], encoder_msg->position[5];
   kin_measurement->set_joint_state(js_msg);
 
-  Eigen::Matrix<double, 12, 1> jsvel_msg;
+  Eigen::Matrix<double, 6, 1> jsvel_msg;
   jsvel_msg << encoder_msg->velocity[0], encoder_msg->velocity[1],
       encoder_msg->velocity[2], encoder_msg->velocity[3],
-      encoder_msg->velocity[4], encoder_msg->velocity[5],
-      encoder_msg->velocity[6], encoder_msg->velocity[7],
-      encoder_msg->velocity[8], encoder_msg->velocity[9],
-      encoder_msg->velocity[10], encoder_msg->velocity[11];
+      encoder_msg->velocity[4], encoder_msg->velocity[5];
   kin_measurement->set_joint_state_velocity(jsvel_msg);
 
   mutex.get()->lock();

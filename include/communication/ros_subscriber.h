@@ -40,7 +40,7 @@
 #include "sensor_msgs/JointState.h"
 
 #include "drift/estimator/inekf_estimator.h"
-#include "drift/kinematics/mini_cheetah_kinematics.h"
+#include "drift/kinematics/biped_kinematics.h"
 #include "drift/utils/type_def.h"
 
 using namespace measurement;
@@ -241,7 +241,7 @@ class ROSSubscriber {
    * @param[in] encoder_topic_name encoder topic name
    * @return VelocityQueuePair velocity queue pair
    */
-  LeggedKinQueuePair AddMiniCheetahKinematicsSubscriber(
+  LeggedKinQueuePair AddbipedKinematicsSubscriber(
       const std::string contact_topic_name,
       const std::string encoder_topic_name);
 
@@ -361,7 +361,7 @@ class ROSSubscriber {
    * @param mutex: mutex for the buffer queue
    * @param vel_queue: pointer to the buffer queue
    */
-  void MiniCheetahKinCallBack(
+  void bipedKinCallBack(
       const boost::shared_ptr<const custom_sensor_msgs::ContactArray>&
           contact_msg,
       const boost::shared_ptr<const sensor_msgs::JointState>& encoder_msg,
