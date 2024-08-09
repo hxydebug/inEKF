@@ -29,8 +29,8 @@
 
 #include <unsupported/Eigen/MatrixFunctions>
 #include "boost/bind.hpp"
-#include "custom_sensor_msgs/Contact.h"
-#include "custom_sensor_msgs/ContactArray.h"
+#include "biped/Contact.h"
+#include "biped/ContactArray.h"
 #include "geometry_msgs/TwistStamped.h"
 #include "geometry_msgs/TwistWithCovarianceStamped.h"
 #include "geometry_msgs/Vector3Stamped.h"
@@ -62,17 +62,17 @@ Pair of OdomQueuePtr and OdomQueue mutex. */
 typedef std::pair<LeggedKinQueuePtr, std::shared_ptr<std::mutex>>
     LeggedKinQueuePair; /**< Pair of LeggedKinQueuePtr and LeggedKinQueue mutex.
                          */
-typedef message_filters::Subscriber<custom_sensor_msgs::ContactArray>
+typedef message_filters::Subscriber<biped::ContactArray>
     ContactMsgFilterT; /**< Message filter for contact messages. */
 typedef message_filters::Subscriber<sensor_msgs::JointState>
     JointStateMsgFilterT; /**< Message filter for joint state messages. */
 typedef std::shared_ptr<
-    message_filters::Subscriber<custom_sensor_msgs::ContactArray>>
+    message_filters::Subscriber<biped::ContactArray>>
     ContactMsgFilterTPtr; /**< Pointer to the ContactMsgFilterT. */
 typedef std::shared_ptr<message_filters::Subscriber<sensor_msgs::JointState>>
     JointStateMsgFilterTPtr; /**< Pointer to the JointStateMsgFilterT. */
 typedef message_filters::sync_policies::ApproximateTime<
-    custom_sensor_msgs::ContactArray, sensor_msgs::JointState>
+    biped::ContactArray, sensor_msgs::JointState>
     LegKinSyncPolicy; /**< Sync policy for legged kinematics. */
 typedef std::shared_ptr<message_filters::Synchronizer<LegKinSyncPolicy>>
     LegKinSyncPtr; /**< Pointer to the LegKinSyncPolicy. */
@@ -362,7 +362,7 @@ class ROSSubscriber {
    * @param vel_queue: pointer to the buffer queue
    */
   void bipedKinCallBack(
-      const boost::shared_ptr<const custom_sensor_msgs::ContactArray>&
+      const boost::shared_ptr<const biped::ContactArray>&
           contact_msg,
       const boost::shared_ptr<const sensor_msgs::JointState>& encoder_msg,
       const std::shared_ptr<std::mutex>& mutex, LeggedKinQueuePtr& kin_queue);

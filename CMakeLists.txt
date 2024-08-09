@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
+project(drift)
 # include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
 # documentation for rosbuild macros: http://wiki.ros.org/rosbuild/CMakeLists
@@ -17,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   trajectory_msgs
   message_generation
   message_filters
+  biped
 )
 
 find_package(Eigen3 REQUIRED)
@@ -33,7 +35,7 @@ message("catkin include dir: ${catkin_INCLUDE_DIRS}")
 include_directories(
   SYSTEM # suppress warnings from 3rd party libs that we can't control
   # ${PROJECT_SOURCE_DIR}/../../include
-  ${PROJECT_SOURCE_DIR}/drift/include
+  ${PROJECT_SOURCE_DIR}/include
   ${EIGEN3_INCLUDE_DIR}
   ${YAML_CPP_INCLUDE_DIR}
   ${Boost_INCLUDE_DIRS}
@@ -53,8 +55,8 @@ set(LIBS
 # file(GLOB MINI_CHEETAH_KIN_SRC_FILES ${PROJECT_SOURCE_DIR}/../../src/kinematics/robots/mini_cheetah/*.cpp)
 
 
-set(ros_subscriber ${PROJECT_SOURCE_DIR}/drift/src/communication/ros_subscriber.cpp)
-set(ros_publisher ${PROJECT_SOURCE_DIR}/drift/src/communication/ros_publisher.cpp)
+set(ros_subscriber ${PROJECT_SOURCE_DIR}/src/communication/ros_subscriber.cpp)
+set(ros_publisher ${PROJECT_SOURCE_DIR}/src/communication/ros_publisher.cpp)
 add_library(ros_communication_lib
   ${ros_subscriber}
   ${ros_publisher}
@@ -71,7 +73,7 @@ add_library(ros_communication_lib
 
 # example for legged robot kinemtaics correction:
 add_executable(mini_cheetah
-  ${PROJECT_SOURCE_DIR}/drift/examples/mini_cheetah.cpp)
+  ${PROJECT_SOURCE_DIR}/examples/mini_cheetah.cpp)
 
 target_link_libraries(mini_cheetah
   ${LIBS}
@@ -83,7 +85,7 @@ target_link_libraries(mini_cheetah
 
 # # # temporary test for ros communicator: subscriber + publisher
 # add_executable(husky
-#   ${PROJECT_SOURCE_DIR}/drift/examples/husky.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/husky.cpp)
 
 # target_link_libraries(husky
 #   ${LIBS}
@@ -94,7 +96,7 @@ target_link_libraries(mini_cheetah
 
 # # # temporary test for fetch
 # add_executable(fetch
-#   ${PROJECT_SOURCE_DIR}/drift/examples/fetch.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/fetch.cpp)
 
 # target_link_libraries(fetch
 #   ${LIBS}
@@ -105,7 +107,7 @@ target_link_libraries(mini_cheetah
 
 # # # temporary test for fetch
 # add_executable(fetch_gyro_filter
-#   ${PROJECT_SOURCE_DIR}/drift/examples/fetch_gyro_filter.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/fetch_gyro_filter.cpp)
 
 # target_link_libraries(fetch_gyro_filter
 #   ${LIBS}
@@ -116,7 +118,7 @@ target_link_libraries(mini_cheetah
 
 
 # add_executable(husky_gyro_filter
-#   ${PROJECT_SOURCE_DIR}/drift/examples/husky_gyro_filter.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/husky_gyro_filter.cpp)
 
 # target_link_libraries(husky_gyro_filter
 #   ${LIBS}
@@ -127,7 +129,7 @@ target_link_libraries(mini_cheetah
 
 
 # add_executable(husky_odom
-#   ${PROJECT_SOURCE_DIR}/drift/examples/husky_odom.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/husky_odom.cpp)
 
 # target_link_libraries(husky_odom
 #   ${LIBS}
@@ -138,7 +140,7 @@ target_link_libraries(mini_cheetah
 
 
 # add_executable(girona500
-#   ${PROJECT_SOURCE_DIR}/drift/examples/girona500.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/girona500.cpp)
 
 # target_link_libraries(girona500
 #   ${LIBS}
@@ -148,7 +150,7 @@ target_link_libraries(mini_cheetah
 # )
 
 # add_executable(husky_double_imu_filter
-#   ${PROJECT_SOURCE_DIR}/drift/examples/husky_double_imu_filter.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/husky_double_imu_filter.cpp)
 
 # target_link_libraries(husky_double_imu_filter
 #   ${LIBS}
@@ -158,7 +160,7 @@ target_link_libraries(mini_cheetah
 # )
 
 # add_executable(neya
-#   ${PROJECT_SOURCE_DIR}/drift/examples/neya.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/neya.cpp)
 
 # target_link_libraries(neya
 #   ${LIBS}
@@ -168,7 +170,7 @@ target_link_libraries(mini_cheetah
 # )
 
 # add_executable(neya_gyro_filter
-#   ${PROJECT_SOURCE_DIR}/drift/examples/neya_gyro_filter.cpp)
+#   ${PROJECT_SOURCE_DIR}/examples/neya_gyro_filter.cpp)
 
 # target_link_libraries(neya_gyro_filter
 #   ${LIBS}
@@ -180,7 +182,7 @@ target_link_libraries(mini_cheetah
 
 ### baselines ###
 # add_executable(fetch_wheel_odom
-#   ${PROJECT_SOURCE_DIR}/drift/baselines/fetch_wheel_odom.cpp)
+#   ${PROJECT_SOURCE_DIR}/baselines/fetch_wheel_odom.cpp)
 
 # target_link_libraries(fetch_wheel_odom
 #   ${LIBS}
@@ -191,7 +193,7 @@ target_link_libraries(mini_cheetah
 # )
 
 # add_executable(husky_wheel_odom
-#   ${PROJECT_SOURCE_DIR}/drift/baselines/husky_wheel_odom.cpp)
+#   ${PROJECT_SOURCE_DIR}/baselines/husky_wheel_odom.cpp)
 
 # target_link_libraries(husky_wheel_odom
 #   ${LIBS}

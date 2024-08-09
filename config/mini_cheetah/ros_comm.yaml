@@ -1,7 +1,7 @@
 subscribers:
   # Name all the topics to subscribe from in this section. You may also redefine the variable name
   # as long as you can load the yaml variable in your main file
-  imu_topic: "/Imu"
+  imu_topic: "/imu/data"
   joint_encoder_topic: "/JointState"
   contact_topic: "/Contacts"
 

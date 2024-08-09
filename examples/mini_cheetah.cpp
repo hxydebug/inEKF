@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
   /// TUTORIAL: Add a subscriber for legged kinematics data and get its queue
   std::cout << "Subscribing to joint_states and contact channel..."
             << std::endl;
-  auto qkin_and_mutex = ros_sub.AddMiniCheetahKinematicsSubscriber(
+  auto qkin_and_mutex = ros_sub.AddbipedKinematicsSubscriber(
       contact_topic, joint_encoder_topic);
   auto qkin = qkin_and_mutex.first;
   auto qkin_mutex = qkin_and_mutex.second;

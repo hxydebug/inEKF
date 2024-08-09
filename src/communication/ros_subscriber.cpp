@@ -343,7 +343,7 @@ void ROSSubscriber::IMUCallback(
         imu_msg->orientation.w, imu_msg->orientation.x, imu_msg->orientation.y,
         imu_msg->orientation.z);
   }
-
+//   std::cout<< imu_msg->linear_acceleration.z<<std::endl;
   mutex.get()->lock();
   imu_queue->push(imu_measurement);
   mutex.get()->unlock();
@@ -543,7 +543,7 @@ void ROSSubscriber::DifferentialEncoder2VelocityCallback_Fetch(
 }
 
 void ROSSubscriber::bipedKinCallBack(
-    const boost::shared_ptr<const custom_sensor_msgs::ContactArray>&
+    const boost::shared_ptr<const biped::ContactArray>&
         contact_msg,
     const boost::shared_ptr<const sensor_msgs::JointState>& encoder_msg,
     const std::shared_ptr<std::mutex>& mutex, LeggedKinQueuePtr& kin_queue) {
@@ -573,7 +573,8 @@ void ROSSubscriber::bipedKinCallBack(
       encoder_msg->velocity[2], encoder_msg->velocity[3],
       encoder_msg->velocity[4], encoder_msg->velocity[5];
   kin_measurement->set_joint_state_velocity(jsvel_msg);
-
+//   std::cout<< int(contact_msg->contacts[1].indicator) <<std::endl;
+//   std::cout<< encoder_msg->position[0] <<std::endl;
   mutex.get()->lock();
   kin_queue->push(kin_measurement);
   mutex.get()->unlock();
