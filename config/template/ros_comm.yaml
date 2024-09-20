@@ -12,7 +12,7 @@ subscribers:
   track_width: 1 # meter
   
   # Legged robot specific:
-  joint_encoder_topic: "/jiont_states_leg"
+  joint_encoder_topic: "/joint_states_leg"
   contact_topic: "/Contacts"
 
 
