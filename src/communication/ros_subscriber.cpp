@@ -41,7 +41,7 @@ IMUQueuePair ROSSubscriber::AddIMUSubscriber(const std::string topic_name) {
 
   // Create the subscriber
   subscriber_list_.push_back(nh_->subscribe<sensor_msgs::Imu>(
-      topic_name, 1000,
+      topic_name, 10,
       boost::bind(&ROSSubscriber::IMUCallback, this, _1, mutex_list_.back(),
                   imu_queue_ptr)));
 
@@ -129,7 +129,7 @@ VelocityQueuePair ROSSubscriber::AddVelocitySubscriber(
 
   // Create the subscriber
   subscriber_list_.push_back(nh_->subscribe<geometry_msgs::TwistStamped>(
-      topic_name, 1000,
+      topic_name, 10,
       boost::bind(&ROSSubscriber::VelocityCallback, this, _1,
                   mutex_list_.back(), vel_queue_ptr)));
 
@@ -150,7 +150,7 @@ VelocityQueuePair ROSSubscriber::AddVelocityWithCovarianceSubscriber(
   // Create the subscriber
   subscriber_list_.push_back(
       nh_->subscribe<geometry_msgs::TwistWithCovarianceStamped>(
-          topic_name, 1000,
+          topic_name, 10,
           boost::bind(&ROSSubscriber::VelocityWithCovarianceCallback, this, _1,
                       mutex_list_.back(), vel_queue_ptr)));
 
@@ -172,7 +172,7 @@ VelocityQueuePair ROSSubscriber::AddDifferentialDriveVelocitySubscriber(
 
   // Create the subscriber
   subscriber_list_.push_back(nh_->subscribe<sensor_msgs::JointState>(
-      topic_name, 1000,
+      topic_name, 5,
       boost::bind(&ROSSubscriber::DifferentialEncoder2VelocityCallback, this,
                   _1, mutex_list_.back(), vel_queue_ptr, wheel_radius)));
 
@@ -200,7 +200,7 @@ ROSSubscriber::AddDifferentialDriveVelocitySubscriber(
 
   // Create the subscriber
   subscriber_list_.push_back(nh_->subscribe<sensor_msgs::JointState>(
-      topic_name, 1000,
+      topic_name, 5,
       boost::bind(&ROSSubscriber::DifferentialEncoder2VelocityCallback, this,
                   _1, vel_mutex, ang_vel_mutex, vel_queue_ptr,
                   ang_vel_queue_ptr, wheel_radius, track_width)));
@@ -226,7 +226,7 @@ ROSSubscriber::AddDifferentialDriveLinearVelocitySubscriber_Fetch(
 
   // Create the subscriber
   subscriber_list_.push_back(nh_->subscribe<sensor_msgs::JointState>(
-      topic_name, 1000,
+      topic_name, 10,
       boost::bind(
           &ROSSubscriber::DifferentialEncoder2LinearVelocityCallback_Fetch,
           this, _1, mutex_list_.back(), vel_queue_ptr, wheel_raidus)));
@@ -265,7 +265,7 @@ VelocityQueuePair ROSSubscriber::AddOdom2VelocityCallback(
 
   // Create the subscriber
   subscriber_list_.push_back(nh_->subscribe<nav_msgs::Odometry>(
-      topic_name, 1000,
+      topic_name, 10,
       boost::bind(&ROSSubscriber::Odom2VelocityCallback, this, _1,
                   mutex_list_.back(), vel_queue_ptr, odom_src_id_)));
 
@@ -295,7 +295,7 @@ ROSSubscriber::AddDifferentialDriveVelocitySubscriber_Fetch(
 
   // Create the subscriber
   subscriber_list_.push_back(nh_->subscribe<sensor_msgs::JointState>(
-      topic_name, 1000,
+      topic_name, 10,
       boost::bind(&ROSSubscriber::DifferentialEncoder2VelocityCallback_Fetch,
                   this, _1, vel_mutex, ang_vel_mutex, vel_queue_ptr,
                   ang_vel_queue_ptr, wheel_radius, track_width)));

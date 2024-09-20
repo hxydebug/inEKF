@@ -36,8 +36,8 @@ ROSPublisher::ROSPublisher(ros::NodeHandle* nh,
   std::cout << "path publish rate: " << path_publish_rate_ << std::endl;
 
   pose_pub_ = nh_->advertise<geometry_msgs::PoseWithCovarianceStamped>(
-      pose_topic, 1000);
-  path_pub_ = nh_->advertise<nav_msgs::Path>(path_topic, 1000);
+      pose_topic, 10);
+  path_pub_ = nh_->advertise<nav_msgs::Path>(path_topic, 1);
 }
 
 ROSPublisher::ROSPublisher(ros::NodeHandle* nh,
@@ -70,8 +70,8 @@ ROSPublisher::ROSPublisher(ros::NodeHandle* nh,
   std::cout << "path publish rate: " << path_publish_rate_ << std::endl;
 
   pose_pub_ = nh_->advertise<geometry_msgs::PoseWithCovarianceStamped>(
-      pose_topic, 1000);
-  path_pub_ = nh_->advertise<nav_msgs::Path>(path_topic, 1000);
+      pose_topic, 10);
+  path_pub_ = nh_->advertise<nav_msgs::Path>(path_topic, 1);
 }
 
 ROSPublisher::~ROSPublisher() {
